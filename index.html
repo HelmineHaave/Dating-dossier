@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dating-dossieret</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Oversikt over dating-livet: hvem tar jeg med videre? Alt lagres bare i din egen nettleser.">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #FFF4F8;
+  --surface: #FFFFFF;
+  --ink: #2A1136;
+  --muted: #6F5A7A;
+  --line: #2A1136;
+  --shadow: #2A1136;
+  --pink: #FF4F94;
+  --pink-soft: #FFD3E5;
+  --butter: #FFE066;
+  --mint: #9FE8C7;
+  --lilac: #D8C8FF;
+  --grey: #E6DDEA;
+  --on-pastel: #2A1136;
+  --display: "Bricolage Grotesque", "Avenir Next", "Trebuchet MS", system-ui, sans-serif;
+  --body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1B0E22;
+    --surface: #2A1636;
+    --ink: #FFEAF3;
+    --muted: #BBA3C8;
+    --line: #8B6A9E;
+    --shadow: #0D0612;
+    --pink-soft: #5A2142;
+    --grey: #3D2A4A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1B0E22;
+  --surface: #2A1636;
+  --ink: #FFEAF3;
+  --muted: #BBA3C8;
+  --line: #8B6A9E;
+  --shadow: #0D0612;
+  --pink-soft: #5A2142;
+  --grey: #3D2A4A;
+  color-scheme: dark;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 28px 18px 64px; }
+
+header.top { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; }
+h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 8vw, 4.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+h1 .stamp {
+  display: inline-block;
+  background: var(--pink);
+  color: var(--on-pastel);
+  padding: 0 0.18em;
+  border: 2px solid var(--line);
+  transform: rotate(-2.5deg);
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+.tagline { margin: 12px 0 0; color: var(--muted); max-width: 44ch; }
+
+.tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn {
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-weight: 700;
+  box-shadow: 3px 3px 0 var(--shadow);
+  transition: transform .08s, box-shadow .08s;
+}
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--shadow); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--shadow); }
+.btn.primary { background: var(--pink); color: var(--on-pastel); }
+.btn.small { padding: 5px 11px; font-size: .875rem; box-shadow: 2px 2px 0 var(--shadow); }
+.btn.danger { background: var(--pink-soft); color: var(--on-pastel); }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--pink); }
+
+.voter { background: var(--surface); border: 2px solid var(--line); border-radius: 10px; padding: 9px 12px; min-width: 230px; }
+.banner { border: 2px dashed var(--line); border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; background: var(--surface); }
+
+.tabs { display: flex; gap: 6px; border-bottom: 2px solid var(--line); margin-bottom: 18px; }
+.tab {
+  background: transparent; border: 2px solid transparent; border-bottom: none;
+  padding: 9px 16px; font-weight: 700; border-radius: 10px 10px 0 0; color: var(--muted);
+  position: relative; top: 2px;
+}
+.tab[aria-selected="true"] { background: var(--surface); border-color: var(--line); color: var(--ink); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 2px solid var(--line); background: var(--surface); border-radius: 999px;
+  padding: 3px 13px; font-weight: 500; font-size: .9rem;
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.sort { display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
+.sort select { background: var(--surface); border: 2px solid var(--line); border-radius: 8px; padding: 4px 8px; color: var(--ink); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 26px 22px; align-items: start; }
+
+.card {
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+  box-shadow: 5px 5px 0 var(--shadow);
+  display: flex; flex-direction: column; gap: 12px;
+  position: relative;
+}
+.card:nth-child(3n+1) { border-top-left-radius: 28px; }
+.card:nth-child(3n+2) { border-top-right-radius: 28px; }
+.card:nth-child(3n) { border-bottom-right-radius: 28px; }
+.head { display: flex; gap: 12px; align-items: center; }
+.sticker {
+  flex: none; width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 1.9rem;
+  border: 2px solid var(--line); background: var(--lilac);
+  transform: rotate(-6deg);
+}
+.card:nth-child(3n+1) .sticker { background: var(--butter); }
+.card:nth-child(3n+2) .sticker { background: var(--mint); }
+.nick { font-family: var(--display); font-weight: 800; font-size: 1.55rem; line-height: 1.05; letter-spacing: -0.02em; margin: 0; overflow-wrap: anywhere; }
+.status {
+  margin-left: auto; flex: none; align-self: flex-start;
+  font-size: .78rem; font-weight: 700; padding: 2px 10px; border: 2px solid var(--line);
+  border-radius: 6px; transform: rotate(3deg); color: var(--on-pastel);
+}
+.st-aktiv { background: var(--mint); }
+.st-vent { background: var(--butter); }
+.st-ghostet { background: var(--lilac); }
+.st-ferdig { background: var(--grey); }
+
+.meta { color: var(--muted); font-size: .92rem; margin: 0; }
+.meta b { color: var(--ink); font-weight: 700; }
+.tea {
+  margin: 0; padding: 10px 14px; background: var(--pink-soft); color: var(--on-pastel);
+  border-left: 5px solid var(--pink); border-radius: 4px 12px 12px 4px; font-size: .98rem;
+}
+.quote { margin: 0; font-style: italic; color: var(--muted); font-size: .95rem; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge { font-size: .8rem; font-weight: 700; padding: 2px 9px; border-radius: 6px; border: 2px solid var(--line); background: var(--butter); color: var(--on-pastel); }
+.badge.ick { background: var(--mint); }
+.badge.song { background: var(--lilac); }
+
+.votes { border-top: 2px dashed var(--line); padding-top: 12px; }
+.votebar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.vote {
+  border: 2px solid var(--line); border-radius: 10px; background: var(--surface);
+  padding: 7px 4px; font-weight: 700; font-size: .88rem; line-height: 1.2;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.vote .n { font-family: var(--display); font-size: 1.2rem; }
+.vote[aria-pressed="true"].v-yes { background: var(--mint); color: var(--on-pastel); box-shadow: 2px 2px 0 var(--shadow); }
+.vote[aria-pressed="true"].v-maybe { background: var(--butter); color: var(--on-pastel); box-shadow: 2px 2px 0 var(--shadow); }
+.vote[aria-pressed="true"].v-no { background: var(--pink); color: var(--on-pastel); box-shadow: 2px 2px 0 var(--shadow); }
+.vote[disabled] { cursor: default; }
+.who { margin: 8px 0 0; font-size: .84rem; color: var(--muted); }
+.hint { font-size: .84rem; color: var(--muted); margin: 8px 0 0; }
+
+.private {
+  border: 2px dashed var(--pink); border-radius: 12px; padding: 12px 14px;
+  background: color-mix(in srgb, var(--pink) 8%, var(--surface));
+  display: flex; flex-direction: column; gap: 8px;
+}
+.private .ptitle { font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.score { font-family: var(--display); font-weight: 800; font-size: 1.7rem; line-height: 1; }
+.cat { font-weight: 700; font-size: .85rem; padding: 2px 10px; border-radius: 6px; border: 2px solid var(--line); color: var(--on-pastel); }
+.cat-go { background: var(--mint); }
+.cat-one { background: var(--butter); }
+.cat-friend { background: var(--lilac); }
+.cat-bye { background: var(--pink-soft); }
+.flags { margin: 0; padding-left: 1.1em; font-size: .9rem; }
+.flags li { margin: 1px 0; }
+.dealbreaker { background: var(--pink); color: var(--on-pastel); font-weight: 700; padding: 4px 10px; border-radius: 6px; font-size: .88rem; }
+.cardtools { display: flex; gap: 8px; justify-content: flex-end; }
+
+.empty { text-align: center; padding: 48px 16px; border: 2px dashed var(--line); border-radius: 16px; background: var(--surface); }
+.empty h2 { font-family: var(--display); margin: 0 0 6px; font-size: 1.6rem; }
+.empty p { margin: 0 0 16px; color: var(--muted); }
+
+.rank { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.rank li {
+  display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center;
+  background: var(--surface); border: 2px solid var(--line); border-radius: 12px; padding: 12px 14px;
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+.pos { font-family: var(--display); font-weight: 800; font-size: 1.9rem; text-align: center; }
+.rank li:nth-child(1) .pos { color: var(--pink); }
+.rowtop { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; justify-content: space-between; }
+.rowtop strong { font-family: var(--display); font-size: 1.2rem; }
+.seg { display: flex; height: 14px; border: 2px solid var(--line); border-radius: 999px; overflow: hidden; margin-top: 6px; background: var(--grey); }
+.seg i { display: block; height: 100%; }
+.seg .s-yes { background: var(--mint); }
+.seg .s-maybe { background: var(--butter); }
+.seg .s-no { background: var(--pink); }
+.rowsub { font-size: .85rem; color: var(--muted); margin-top: 4px; }
+
+dialog {
+  border: 2px solid var(--line); border-radius: 16px; padding: 0; background: var(--surface); color: var(--ink);
+  width: min(640px, calc(100vw - 24px)); max-height: calc(100vh - 24px);
+  box-shadow: 8px 8px 0 var(--shadow);
+}
+dialog::backdrop { background: rgba(20, 6, 28, .55); }
+.dform { padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 14px; max-height: calc(100vh - 28px); overflow-y: auto; }
+.dform h2 { font-family: var(--display); font-weight: 800; margin: 0; font-size: 1.7rem; letter-spacing: -0.02em; }
+.dform h3 { font-family: var(--display); margin: 8px 0 0; font-size: 1.2rem; }
+.sect-private { border: 2px dashed var(--pink); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.sect-private > p { margin: 0; color: var(--muted); font-size: .9rem; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label, .field .lbl { font-weight: 700; font-size: .9rem; }
+.field input[type="text"], .field input[type="number"], .field select, .field textarea {
+  background: var(--paper); border: 2px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%;
+}
+.field textarea { min-height: 70px; resize: vertical; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row3 { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 12px; }
+.sup { display: flex; flex-wrap: wrap; gap: 6px; }
+.sup label { display: inline-flex; gap: 6px; align-items: center; border: 2px solid var(--line); border-radius: 999px; padding: 2px 11px; font-size: .86rem; font-weight: 500; background: var(--paper); cursor: pointer; }
+.sup label:has(input:checked) { background: var(--butter); color: var(--on-pastel); }
+.sup input { accent-color: var(--pink); }
+.picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.formerr { background: var(--pink); color: var(--on-pastel); font-weight: 700; border: 2px solid var(--line); border-radius: 10px; padding: 10px 14px; overflow-wrap: anywhere; }
+.formerr[hidden] { display: none; }
+.picker button { width: 40px; height: 40px; font-size: 1.4rem; border: 2px solid var(--line); border-radius: 10px; background: var(--paper); padding: 0; }
+.picker button:hover { background: var(--butter); }
+#f_emoji { font-size: 1.4rem; text-align: center; }
+.slider { display: grid; grid-template-columns: 1fr 28px; gap: 10px; align-items: center; }
+.slider input { accent-color: var(--pink); width: 100%; }
+.slider output { font-family: var(--display); font-weight: 800; font-size: 1.2rem; text-align: center; }
+.liveScore { font-weight: 700; padding: 8px 12px; border: 2px solid var(--line); border-radius: 8px; background: var(--paper); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; margin-top: 4px; }
+.actions .right { display: flex; gap: 10px; margin-left: auto; }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  background: var(--ink); color: var(--paper); padding: 10px 18px; border-radius: 10px; font-weight: 500;
+  max-width: calc(100vw - 32px); z-index: 50;
+}
+.toast[hidden] { display: none; }
+
+@media (max-width: 520px) {
+  .row2, .row3 { grid-template-columns: 1fr; }
+  .head { align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1><span class="stamp">Dating</span>-dossieret</h1>
+      <p class="tagline" id="tagline">Hvem tar jeg med videre? Se hvem det gjelder, les teaen og stem.</p>
+    </div>
+    <div class="tools" id="tools"></div>
+  </header>
+
+  <div id="banner"></div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="tea" aria-selected="true">Tea-oversikt</button>
+    <button class="tab" role="tab" data-tab="rank" aria-selected="false">Venninnenes ranking</button>
+  </div>
+
+  <div id="view"></div>
+</div>
+
+<dialog id="dlg">
+  <form class="dform" id="form" method="dialog" autocomplete="off">
+    <h2 id="dlgTitle">Ny person</h2>
+
+    <h3>Tea (deles med venninnene)</h3>
+    <div class="row3">
+      <div class="field"><label for="f_emoji">Emoji</label><input type="text" id="f_emoji" value="😏" aria-label="Emoji"></div>
+      <div class="field"><label for="f_nick">Kallenavn</label><input type="text" id="f_nick" maxlength="40" placeholder="Hinge-Henrik" required></div>
+      <div class="field"><label for="f_status">Status</label>
+        <select id="f_status"></select>
+      </div>
+    </div>
+    <div class="picker" id="f_picker" aria-label="Velg emoji"></div>
+    <div class="row2">
+      <div class="field"><label for="f_met">Hvor møttes dere?</label><input type="text" id="f_met" maxlength="150" placeholder="Hinge, bar, venn av venn …"></div>
+      <div class="field"><label for="f_lastContact">Siste kontakt</label><input type="text" id="f_lastContact" maxlength="40" placeholder="i går kveld"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="f_dates">Antall dates</label><input type="number" id="f_dates" min="0" max="99" value="1"></div>
+      <div class="field"><label for="f_ick">Ick-teller</label><input type="number" id="f_ick" min="0" max="99" value="0"></div>
+    </div>
+    <div class="field"><label for="f_firstDate">Første date: hva gjorde dere?</label><textarea id="f_firstDate" maxlength="800" placeholder="Drinker på Territoriet, endte med nachos"></textarea></div>
+    <div class="field"><label for="f_tea">Teaen</label><textarea id="f_tea" maxlength="1000" placeholder="Den ene tingen vennene må få vite"></textarea></div>
+    <div class="row2">
+      <div class="field"><label for="f_quote">Beste (eller verste) replikk</label><input type="text" id="f_quote" maxlength="300"></div>
+      <div class="field"><label for="f_vibe">Vibe-sang</label><input type="text" id="f_vibe" maxlength="80" placeholder="Artist – sang"></div>
+    </div>
+    <div class="field"><span class="lbl">Utmerkelser</span><div class="sup" id="f_sup"></div></div>
+
+    <h3>Min vurdering</h3>
+    <div class="sect-private">
+      <p>Bare du ser dette. Det vises aldri for venninnene, og skjules når du slår på vennevisning.</p>
+      <div class="field"><span class="lbl">Magefølelse etter daten (følte jeg meg bra etterpå?)</span><div class="slider"><input type="range" id="f_gut" min="1" max="5" value="3"><output id="o_gut">3</output></div></div>
+      <div class="field"><span class="lbl">Innsats (tar initiativ, svarer, planlegger)</span><div class="slider"><input type="range" id="f_effort" min="1" max="5" value="3"><output id="o_effort">3</output></div></div>
+      <div class="field"><span class="lbl">Samsvar (vil det samme, samme humor og verdier)</span><div class="slider"><input type="range" id="f_match" min="1" max="5" value="3"><output id="o_match">3</output></div></div>
+      <div class="field"><span class="lbl">Tiltrekning</span><div class="slider"><input type="range" id="f_attraction" min="1" max="5" value="3"><output id="o_attraction">3</output></div></div>
+      <div class="field"><label for="f_green">Green flags (maks tre, én per linje)</label><textarea id="f_green"></textarea></div>
+      <div class="field"><label for="f_red">Red flags (maks tre, én per linje)</label><textarea id="f_red"></textarea></div>
+      <div class="field"><label for="f_dbText">Mine deal-breakers</label><textarea id="f_dbText" maxlength="800" placeholder="Skriv dem ned før du blir glad i noen"></textarea></div>
+      <label class="toggle"><input type="checkbox" id="f_dbHit"> En deal-breaker er truffet</label>
+      <div class="liveScore" id="liveScore"></div>
+      <div class="field"><label for="f_cat">Kategori</label><select id="f_cat"></select></div>
+      <div class="field"><label for="f_notes">Private notater</label><textarea id="f_notes"></textarea></div>
+    </div>
+
+    <div class="formerr" id="formErr" role="alert" hidden></div>
+    <div class="actions">
+      <button type="button" class="btn danger" id="btnDelete" hidden>Slett person</button>
+      <div class="right">
+        <button type="button" class="btn" id="btnCancel">Avbryt</button>
+        <button type="submit" class="btn primary" id="btnSave">Lagre</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var STATUSES = [
+    { key: "aktiv", label: "Aktiv" },
+    { key: "vent", label: "På vent" },
+    { key: "ghostet", label: "Ghostet" },
+    { key: "ferdig", label: "Ferdig" }
+  ];
+  var CATS = [
+    { key: "go", label: "Gå videre", cls: "cat-go" },
+    { key: "one", label: "Gi én sjanse til", cls: "cat-one" },
+    { key: "friend", label: "Venner/ingenting", cls: "cat-friend" },
+    { key: "bye", label: "Takk for meg", cls: "cat-bye" }
+  ];
+  var SUPERS = ["Best kysser", "Mest sjarmerende", "Best humor", "Verste tekstvaner", "Mest ick", "Beste date-valg", "Best lukt", "Flest red flags"];
+
+  var state = {
+    db: null, user: null, uid: null, isOwner: false, canVote: false,
+    people: [], votes: {}, priv: {}, names: {}, voter: "", storageFail: false,
+    tab: "tea", filter: "alle", sort: "ny", friendMode: false, editId: null, deleteArmed: false
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function toast(msg) {
+    var t = $("toast");
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { t.hidden = true; }, 3600);
+  }
+  function statusLabel(k) { for (var i = 0; i < STATUSES.length; i++) if (STATUSES[i].key === k) return STATUSES[i].label; return "Aktiv"; }
+  function catOf(k) { for (var i = 0; i < CATS.length; i++) if (CATS[i].key === k) return CATS[i]; return null; }
+
+  /* ---------- scoring ---------- */
+  function pctOf(p) {
+    if (!p) return null;
+    var total = p.gut * 2 + p.effort + p.match + p.attraction;
+    return Math.round(total / 25 * 100);
+  }
+  function suggest(pct, dbHit) {
+    if (dbHit) return "bye";
+    if (pct >= 75) return "go";
+    if (pct >= 55) return "one";
+    if (pct >= 40) return "friend";
+    return "bye";
+  }
+  function tally(pid) {
+    var t = { yes: [], maybe: [], no: [] };
+    Object.keys(state.votes).forEach(function (uid) {
+      var v = (state.votes[uid] || {})[pid];
+      if (t[v]) t[v].push(uid);
+    });
+    return t;
+  }
+  function friendScore(pid) { var t = tally(pid); return t.yes.length - t.no.length; }
+  function nameOf(uid) { return state.names[uid] || "En venninne"; }
+  function namesList(ids) { return ids.map(nameOf).join(", "); }
+  function voterCount() { return Object.keys(state.votes).filter(function (u) { return Object.keys(state.votes[u] || {}).length; }).length; }
+
+  /* ---------- rendering ---------- */
+  function renderTools() {
+    var h = "";
+    h += '<label class="toggle"><input type="checkbox" id="chkFriend"' + (state.friendMode ? " checked" : "") + '> Vennevisning</label>';
+    if (state.friendMode) {
+      h += '<input type="text" class="voter" id="voterName" list="voterList" maxlength="30" placeholder="Skriv navnet ditt for å stemme" value="' + esc(state.voter) + '">';
+      h += '<datalist id="voterList">' + Object.keys(state.votes).map(function (n) { return '<option value="' + esc(n) + '">'; }).join("") + "</datalist>";
+    } else {
+      h += '<button class="btn primary" data-act="add">Legg til person</button>';
+      h += '<button class="btn" data-act="export">Sikkerhetskopi</button>';
+      h += '<button class="btn" data-act="import">Last inn</button>';
+    }
+    $("tools").innerHTML = h;
+    $("tagline").textContent = state.friendMode
+      ? "Les teaen og stem på hvem du heier på. Skriv navnet ditt først, så kan du endre stemmen når som helst."
+      : "Hvem tar jeg med videre? Legg inn folk, vurder dem privat og la venninnene stemme på samme enhet.";
+  }
+
+  function renderBanner() {
+    var h = "";
+    if (state.storageFail) {
+      h = '<div class="banner"><b>Nettleseren blokkerer lagring.</b> Alt du legger inn forsvinner når du lukker siden. Bruk «Sikkerhetskopi» for å ta vare på det.</div>';
+    } else if (state.friendMode && !state.voter) {
+      h = '<div class="banner"><b>Skriv navnet ditt øverst</b> for å kunne stemme.</div>';
+    } else if (!state.friendMode) {
+      h = '<div class="banner">Alt lagres bare i denne nettleseren, på denne enheten. Ta en sikkerhetskopi av og til.</div>';
+    }
+    $("banner").innerHTML = h;
+  }
+
+  function sortedPeople() {
+    var list = state.people.slice();
+    if (state.filter !== "alle") list = list.filter(function (p) { return (p.status || "aktiv") === state.filter; });
+    var s = state.sort;
+    list.sort(function (a, b) {
+      if (s === "ranking") return friendScore(b.id) - friendScore(a.id) || (b.createdAt || 0) - (a.createdAt || 0);
+      if (s === "dates") return (b.dates || 0) - (a.dates || 0);
+      if (s === "min") {
+        var pa = state.priv[a.id] ? pctOf(state.priv[a.id]) : -1;
+        var pb = state.priv[b.id] ? pctOf(state.priv[b.id]) : -1;
+        return pb - pa;
+      }
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    return list;
+  }
+
+  function privatePanel(p) {
+    var pr = state.priv[p.id];
+    if (!pr) {
+      return '<div class="private"><div class="ptitle">🔒 Min vurdering</div><div class="hint" style="margin:0">Ikke vurdert ennå. Trykk «Rediger» for å fylle ut.</div></div>';
+    }
+    var pct = pctOf(pr);
+    var cat = catOf(pr.category) || catOf(suggest(pct, pr.dbHit));
+    var t = tally(p.id);
+    var h = '<div class="private"><div class="ptitle">🔒 Min vurdering <span class="score">' + pct + '%</span>' +
+      (cat ? '<span class="cat ' + cat.cls + '">' + esc(cat.label) + "</span>" : "") + "</div>";
+    if (pr.dbHit) h += '<div class="dealbreaker">Deal-breaker truffet: ' + esc(pr.dbText || "ja") + "</div>";
+    else if (pr.dbText) h += '<div class="hint" style="margin:0">Deal-breakers: ' + esc(pr.dbText) + "</div>";
+    if (pr.green && pr.green.length) h += '<ul class="flags">' + pr.green.map(function (x) { return "<li>💚 " + esc(x) + "</li>"; }).join("") + "</ul>";
+    if (pr.red && pr.red.length) h += '<ul class="flags">' + pr.red.map(function (x) { return "<li>🚩 " + esc(x) + "</li>"; }).join("") + "</ul>";
+    if (pr.notes) h += '<div class="hint" style="margin:0">' + esc(pr.notes) + "</div>";
+    if (cat && cat.key === "bye" && t.yes.length > t.no.length) h += '<div class="hint" style="margin:0">Venninnene heier på ham, men du sa takk for meg. Stol på magefølelsen din.</div>';
+    if (cat && cat.key === "go" && t.no.length > t.yes.length) h += '<div class="hint" style="margin:0">Venninnene ser red flags. Sjekk magefølelsen en gang til.</div>';
+    return h + "</div>";
+  }
+
+  function card(p) {
+    var st = p.status || "aktiv";
+    var t = tally(p.id);
+    var mine = (state.votes[state.voter] || {})[p.id];
+    var voteDisabled = !state.canVote ? " disabled" : "";
+    var meta = [];
+    if (p.met) meta.push("Møttes på <b>" + esc(p.met) + "</b>");
+    meta.push("<b>" + (p.dates || 0) + "</b> " + ((p.dates || 0) === 1 ? "date" : "dates"));
+    if (p.lastContact) meta.push("sist snakket " + esc(p.lastContact));
+    var h = '<article class="card">';
+    h += '<div class="head"><div class="sticker" aria-hidden="true">' + esc(p.emoji || "😏") + "</div>";
+    h += '<h2 class="nick">' + esc(p.nick) + "</h2>";
+    h += '<span class="status st-' + esc(st) + '">' + esc(statusLabel(st)) + "</span></div>";
+    h += '<p class="meta">' + meta.join(" · ") + "</p>";
+    if (p.firstDate) h += '<p class="meta">Første date: ' + esc(p.firstDate) + "</p>";
+    if (p.tea) h += '<p class="tea">' + esc(p.tea) + "</p>";
+    if (p.quote) h += '<p class="quote">«' + esc(p.quote) + "»</p>";
+    var b = "";
+    (p.supers || []).forEach(function (s) { b += '<span class="badge">🏆 ' + esc(s) + "</span>"; });
+    if (p.ick) b += '<span class="badge ick">🤢 ick ×' + esc(p.ick) + "</span>";
+    if (p.vibe) b += '<span class="badge song">♪ ' + esc(p.vibe) + "</span>";
+    if (b) h += '<div class="badges">' + b + "</div>";
+
+    h += '<div class="votes"><div class="votebar">';
+    h += '<button class="vote v-yes" data-act="vote" data-v="yes" data-id="' + esc(p.id) + '" aria-pressed="' + (mine === "yes") + '"' + voteDisabled + '><span class="n">' + t.yes.length + "</span>💚 Heier på</button>";
+    h += '<button class="vote v-maybe" data-act="vote" data-v="maybe" data-id="' + esc(p.id) + '" aria-pressed="' + (mine === "maybe") + '"' + voteDisabled + '><span class="n">' + t.maybe.length + "</span>🤔 Usikker</button>";
+    h += '<button class="vote v-no" data-act="vote" data-v="no" data-id="' + esc(p.id) + '" aria-pressed="' + (mine === "no") + '"' + voteDisabled + '><span class="n">' + t.no.length + "</span>🚩 Red flag</button>";
+    h += "</div>";
+    var who = [];
+    if (t.yes.length) who.push("💚 " + esc(namesList(t.yes)));
+    if (t.maybe.length) who.push("🤔 " + esc(namesList(t.maybe)));
+    if (t.no.length) who.push("🚩 " + esc(namesList(t.no)));
+    if (who.length) h += '<p class="who">' + who.join(" &nbsp; ") + "</p>";
+    else h += '<p class="who">Ingen har stemt ennå.</p>';
+    h += "</div>";
+
+    if (state.isOwner && !state.friendMode) {
+      h += privatePanel(p);
+      h += '<div class="cardtools"><button class="btn small" data-act="edit" data-id="' + esc(p.id) + '">Rediger</button></div>';
+    }
+    return h + "</article>";
+  }
+
+  function renderTea() {
+    var h = "";
+    if (!state.people.length) {
+      if (!state.friendMode) {
+        h = '<div class="empty"><h2>Ingen er lagt til ennå</h2><p>Start med den du tenker mest på akkurat nå.</p><button class="btn primary" data-act="add">Legg til første person</button></div>';
+      } else {
+        h = '<div class="empty"><h2>Her er det stille ennå</h2><p>Når teaen er lagt inn, dukker den opp her.</p></div>';
+      }
+      return h;
+    }
+    var chips = '<div class="chips"><button class="chip" data-act="filter" data-f="alle" aria-pressed="' + (state.filter === "alle") + '">Alle</button>';
+    STATUSES.forEach(function (s) {
+      chips += '<button class="chip" data-act="filter" data-f="' + s.key + '" aria-pressed="' + (state.filter === s.key) + '">' + s.label + "</button>";
+    });
+    chips += "</div>";
+    var opts = [["ny", "Nyeste"], ["ranking", "Venninnenes ranking"], ["dates", "Flest dates"]];
+    if (state.isOwner && !state.friendMode) opts.push(["min", "Min score"]);
+    var sel = '<label class="sort">Sorter <select id="selSort">' + opts.map(function (o) {
+      return '<option value="' + o[0] + '"' + (state.sort === o[0] ? " selected" : "") + ">" + o[1] + "</option>";
+    }).join("") + "</select></label>";
+    h += '<div class="controls">' + chips + sel + "</div>";
+    var list = sortedPeople();
+    if (!list.length) h += '<div class="empty"><p style="margin:0">Ingen med den statusen.</p></div>';
+    else h += '<div class="grid">' + list.map(card).join("") + "</div>";
+    return h;
+  }
+
+  function renderRank() {
+    if (!state.people.length) return '<div class="empty"><h2>Ingen å rangere ennå</h2><p>Legg til folk først.</p></div>';
+    var list = state.people.slice().sort(function (a, b) { return friendScore(b.id) - friendScore(a.id) || tally(b.id).yes.length - tally(a.id).yes.length; });
+    var n = voterCount();
+    var h = '<p class="hint" style="margin:0 0 14px">' + n + (n === 1 ? " venninne har" : " venninner har") + " stemt. Poeng = «Heier på» minus «Red flag».</p><ol class=\"rank\">";
+    list.forEach(function (p, i) {
+      var t = tally(p.id);
+      var total = t.yes.length + t.maybe.length + t.no.length;
+      var w = function (x) { return total ? (x / total * 100).toFixed(1) : 0; };
+      var sc = friendScore(p.id);
+      var catChip = "";
+      if (state.isOwner && !state.friendMode && state.priv[p.id]) {
+        var pr = state.priv[p.id];
+        var c = catOf(pr.category) || catOf(suggest(pctOf(pr), pr.dbHit));
+        if (c) catChip = ' <span class="cat ' + c.cls + '">' + esc(c.label) + "</span>";
+      }
+      h += '<li><div class="pos">' + (i + 1) + '</div><div><div class="rowtop"><strong>' + esc(p.emoji || "") + " " + esc(p.nick) + "</strong><span>" + (sc > 0 ? "+" : "") + sc + " poeng" + catChip + "</span></div>";
+      h += '<div class="seg" aria-hidden="true"><i class="s-yes" style="width:' + w(t.yes.length) + '%"></i><i class="s-maybe" style="width:' + w(t.maybe.length) + '%"></i><i class="s-no" style="width:' + w(t.no.length) + '%"></i></div>';
+      h += '<div class="rowsub">💚 ' + t.yes.length + " · 🤔 " + t.maybe.length + " · 🚩 " + t.no.length + "</div></div></li>";
+    });
+    return h + "</ol>";
+  }
+
+  function render() {
+    state.canVote = state.friendMode && !!state.voter;
+    renderTools();
+    renderBanner();
+    Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (b) {
+      b.setAttribute("aria-selected", String(b.getAttribute("data-tab") === state.tab));
+    });
+    $("view").innerHTML = state.tab === "tea" ? renderTea() : renderRank();
+  }
+
+  /* ---------- form ---------- */
+  function fillSelects() {
+    $("f_status").innerHTML = STATUSES.map(function (s) { return '<option value="' + s.key + '">' + s.label + "</option>"; }).join("");
+    $("f_cat").innerHTML = '<option value="">Foreslå automatisk</option>' + CATS.map(function (c) { return '<option value="' + c.key + '">' + c.label + "</option>"; }).join("");
+    $("f_picker").innerHTML = ["😏","😍","🥰","😎","🤓","🥶","🔥","🐶","🏋️","🍷","🎸","🚗","🧢","🦊","🌶️","🍑","🤡","👻","🙄","🤔"].map(function (em) {
+      return '<button type="button" data-emoji="' + em + '">' + em + "</button>";
+    }).join("");
+    $("f_sup").innerHTML = SUPERS.map(function (s, i) {
+      return '<label><input type="checkbox" name="sup" value="' + esc(s) + '"> ' + esc(s) + "</label>";
+    }).join("");
+  }
+  function readSliders() {
+    return { gut: +$("f_gut").value, effort: +$("f_effort").value, match: +$("f_match").value, attraction: +$("f_attraction").value };
+  }
+  function updateLive() {
+    ["gut", "effort", "match", "attraction"].forEach(function (k) { $("o_" + k).textContent = $("f_" + k).value; });
+    var s = readSliders();
+    var pct = pctOf(s);
+    var c = catOf(suggest(pct, $("f_dbHit").checked));
+    $("liveScore").textContent = "Score: " + pct + "%. Forslag: " + c.label + ".";
+  }
+  function showErr(msg) {
+    var el = $("formErr");
+    el.textContent = msg;
+    el.hidden = false;
+    el.scrollIntoView({ block: "nearest" });
+  }
+  function firstEmoji(v) {
+    v = (v || "").trim();
+    if (!v) return "😏";
+    if (window.Intl && Intl.Segmenter) {
+      var it = new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(v)[Symbol.iterator]().next();
+      return it.value ? it.value.segment : "😏";
+    }
+    return Array.from(v).slice(0, 2).join("");
+  }
+  function lines(v) {
+    return v.split("\n").map(function (x) { return x.trim(); }).filter(Boolean).slice(0, 3);
+  }
+  function openForm(id) {
+    state.editId = id || null;
+    state.deleteArmed = false;
+    var p = id ? state.people.filter(function (x) { return x.id === id; })[0] : null;
+    var pr = id ? state.priv[id] : null;
+    p = p || {};
+    pr = pr || {};
+    $("dlgTitle").textContent = id ? "Rediger " + (p.nick || "person") : "Ny person";
+    $("f_emoji").value = p.emoji || "😏";
+    $("f_nick").value = p.nick || "";
+    $("f_status").value = p.status || "aktiv";
+    $("f_met").value = p.met || "";
+    $("f_lastContact").value = p.lastContact || "";
+    $("f_dates").value = p.dates == null ? 1 : p.dates;
+    $("f_ick").value = p.ick || 0;
+    $("f_firstDate").value = p.firstDate || "";
+    $("f_tea").value = p.tea || "";
+    $("f_quote").value = p.quote || "";
+    $("f_vibe").value = p.vibe || "";
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="sup"]'), function (c) { c.checked = (p.supers || []).indexOf(c.value) > -1; });
+    $("f_gut").value = pr.gut || 3;
+    $("f_effort").value = pr.effort || 3;
+    $("f_match").value = pr.match || 3;
+    $("f_attraction").value = pr.attraction || 3;
+    $("f_green").value = (pr.green || []).join("\n");
+    $("f_red").value = (pr.red || []).join("\n");
+    $("f_dbText").value = pr.dbText || "";
+    $("f_dbHit").checked = !!pr.dbHit;
+    $("f_cat").value = pr.category || "";
+    $("f_notes").value = pr.notes || "";
+    $("btnDelete").hidden = !id;
+    $("formErr").hidden = true;
+    $("btnDelete").textContent = "Slett person";
+    updateLive();
+    $("dlg").showModal();
+  }
+  async function saveForm(e) {
+    e.preventDefault();
+    if (!state.db || !state.uid) {
+      showErr(!state.db
+        ? "Lagring fungerer bare på den publiserte siden. Åpne lenken fra publiseringskortet, ikke forhåndsvisningen i chatten."
+        : "Fant ikke brukeren din, så siden kan ikke lagre. Last siden på nytt mens du er innlogget.");
+      return;
+    }
+    var nick = $("f_nick").value.trim();
+    if (!nick) { $("f_nick").focus(); return; }
+    var id = state.editId || state.db.collection("people").doc().id;
+    var existing = state.people.filter(function (x) { return x.id === id; })[0];
+    var supers = Array.prototype.filter.call(document.querySelectorAll('input[name="sup"]'), function (c) { return c.checked; }).map(function (c) { return c.value; });
+    var shared = {
+      nick: nick, emoji: firstEmoji($("f_emoji").value), status: $("f_status").value,
+      met: $("f_met").value.trim(), lastContact: $("f_lastContact").value.trim(),
+      dates: Math.max(0, parseInt($("f_dates").value, 10) || 0), ick: Math.max(0, parseInt($("f_ick").value, 10) || 0),
+      firstDate: $("f_firstDate").value.trim(), tea: $("f_tea").value.trim(), quote: $("f_quote").value.trim(),
+      vibe: $("f_vibe").value.trim(), supers: supers, createdAt: existing && existing.createdAt ? existing.createdAt : Date.now()
+    };
+    var s = readSliders();
+    var priv = {
+      gut: s.gut, effort: s.effort, match: s.match, attraction: s.attraction,
+      green: lines($("f_green").value), red: lines($("f_red").value),
+      dbText: $("f_dbText").value.trim(), dbHit: $("f_dbHit").checked,
+      category: $("f_cat").value || suggest(pctOf(s), $("f_dbHit").checked),
+      notes: $("f_notes").value.trim()
+    };
+    $("btnSave").disabled = true;
+    var step = "teaen";
+    $("formErr").hidden = true;
+    try {
+      await state.db.doc("people/" + id).set(shared);
+      step = "den private vurderingen";
+      await state.db.doc("data/users/" + state.uid + "/" + id).set(priv);
+      $("dlg").close();
+      toast("Lagret");
+    } catch (err) {
+      showErr("Kunne ikke lagre " + step + ". Feilkode: " + ((err && err.code) || "ukjent") + (err && err.message ? " – " + err.message : ""));
+    }
+    $("btnSave").disabled = false;
+  }
+  async function deletePerson() {
+    if (!state.editId) return;
+    if (!state.deleteArmed) {
+      state.deleteArmed = true;
+      $("btnDelete").textContent = "Trykk igjen for å slette";
+      return;
+    }
+    try {
+      await state.db.doc("people/" + state.editId).delete();
+      await state.db.doc("data/users/" + state.uid + "/" + state.editId).delete();
+      $("dlg").close();
+      toast("Slettet");
+    } catch (err) {
+      showErr("Kunne ikke slette. Feilkode: " + ((err && err.code) || "ukjent"));
+    }
+  }
+
+  /* ---------- voting ---------- */
+  async function castVote(pid, val) {
+    if (!state.canVote) return;
+    var cur = state.votes[state.voter] || {};
+    var next = {};
+    Object.keys(cur).forEach(function (k) { next[k] = cur[k]; });
+    if (next[pid] === val) delete next[pid]; else next[pid] = val;
+    await state.db.doc("votes/" + state.voter).set({ votes: next });
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener("click", function (e) {
+    var pk = e.target.closest("[data-emoji]");
+    if (pk) { $("f_emoji").value = pk.getAttribute("data-emoji"); return; }
+    var tabBtn = e.target.closest(".tab");
+    if (tabBtn) { state.tab = tabBtn.getAttribute("data-tab"); render(); return; }
+    var el = e.target.closest("[data-act]");
+    if (!el) return;
+    var act = el.getAttribute("data-act");
+    if (act === "add") openForm(null);
+    else if (act === "edit") openForm(el.getAttribute("data-id"));
+    else if (act === "vote") castVote(el.getAttribute("data-id"), el.getAttribute("data-v"));
+    else if (act === "filter") { state.filter = el.getAttribute("data-f"); render(); }
+    else if (act === "export") exportData();
+    else if (act === "import") importData();
+  });
+  document.addEventListener("change", function (e) {
+    if (e.target.id === "chkFriend") { state.friendMode = e.target.checked; if (state.friendMode && state.sort === "min") state.sort = "ny"; render(); }
+    else if (e.target.id === "voterName") { state.voter = e.target.value.replace(/[\/\\]/g, "").trim(); render(); var vi = $("voterName"); if (vi && !state.voter) vi.focus(); }
+    else if (e.target.id === "selSort") { state.sort = e.target.value; render(); }
+  });
+  $("form").addEventListener("submit", saveForm);
+  $("form").addEventListener("input", function (e) { if (e.target.closest(".sect-private")) updateLive(); });
+  $("btnCancel").addEventListener("click", function () { $("dlg").close(); });
+  $("btnDelete").addEventListener("click", deletePerson);
+  $("f_emoji").addEventListener("focus", function () { this.select(); });
+
+  /* ---------- data (lagres lokalt i nettleseren) ---------- */
+  var STORE_KEY = "dating-dossier-v1";
+  var SEED = { people: {}, votes: {}, priv: {} };
+  var store = JSON.parse(JSON.stringify(SEED));
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if (raw) { var parsed = JSON.parse(raw); if (parsed && parsed.people) store = parsed; }
+  } catch (err) { state.storageFail = true; }
+  store.votes = store.votes || {};
+  store.priv = store.priv || {};
+
+  function sync() {
+    state.people = Object.keys(store.people).map(function (id) { return Object.assign({ id: id }, store.people[id]); });
+    state.votes = store.votes;
+    state.priv = store.priv;
+    Object.keys(store.votes).forEach(function (n) { state.names[n] = n; });
+    render();
+  }
+  function persist() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (err) { state.storageFail = true; }
+    sync();
+  }
+  state.db = {
+    collection: function () {
+      return { doc: function () { return { id: "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6) }; } };
+    },
+    doc: function (path) {
+      var parts = path.split("/");
+      return {
+        set: async function (data) {
+          if (parts[0] === "people") store.people[parts[1]] = data;
+          else if (parts[0] === "votes") store.votes[parts[1]] = data.votes;
+          else if (parts[0] === "data") store.priv[parts[3]] = data;
+          persist();
+        },
+        delete: async function () {
+          if (parts[0] === "people") delete store.people[parts[1]];
+          else if (parts[0] === "votes") delete store.votes[parts[1]];
+          else if (parts[0] === "data") delete store.priv[parts[3]];
+          persist();
+        }
+      };
+    }
+  };
+  state.uid = "owner";
+  state.isOwner = true;
+
+  function exportData() {
+    var blob = new Blob([JSON.stringify(store, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "dating-dossier-sikkerhetskopi.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+    toast("Sikkerhetskopi lastet ned");
+  }
+  function importData() {
+    var inp = document.createElement("input");
+    inp.type = "file";
+    inp.accept = ".json,application/json";
+    inp.onchange = function () {
+      var f = inp.files && inp.files[0];
+      if (!f) return;
+      var r = new FileReader();
+      r.onload = function () {
+        try {
+          var d = JSON.parse(r.result);
+          if (!d || typeof d.people !== "object") throw new Error("bad");
+          store = { people: d.people, votes: d.votes || {}, priv: d.priv || {} };
+          persist();
+          toast("Sikkerhetskopi lastet inn");
+        } catch (err) { toast("Filen ser ikke ut som en sikkerhetskopi."); }
+      };
+      r.readAsText(f);
+    };
+    inp.click();
+  }
+
+  function init() {
+    fillSelects();
+    updateLive();
+    sync();
+  }
+  init();
+})();
+</script>
+</body>
+</html>
